@@ -1,0 +1,2 @@
+Person voter
+string eligibility
