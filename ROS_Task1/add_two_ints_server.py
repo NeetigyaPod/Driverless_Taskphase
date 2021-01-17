@@ -1,19 +1,16 @@
-#!/usr/bin/env python
-
-from __future__ import print_function
-
-from beginner_tutorials.srv import AddTwoInts,AddTwoIntsResponse
+#!/usr/bin/env python3
+from beginner_tutorials.msg import Addtwoints as AddTwoInts
 import rospy
 
-def handle_add_two_ints(req):
-    print("Returning [%s + %s = %s]"%(req.a, req.b, (req.a + req.b)))
-    return AddTwoIntsResponse(req.a + req.b)
 
-def add_two_ints_server():
-    rospy.init_node('add_two_ints_server')
-    s = rospy.Service('add_two_ints', AddTwoInts, handle_add_two_ints)
-    print("Ready to add two ints.")
-    rospy.spin()
+def add_two_ints():
+    rospy.init_node('add_two_ints_input',anonymous=True)
+    mes=AddTwoInts()
+    while not rospy.is_shutdown():
+    	mes.a=int(input("Enter first number"))
+    	mes.b=int(input("Enter second number"))
+    	pub = rospy.Publisher('addints', AddTwoInts,queue_size=10)
+    	pub.publish(mes)
 
 if __name__ == "__main__":
-    add_two_ints_server()
+    add_two_ints()
